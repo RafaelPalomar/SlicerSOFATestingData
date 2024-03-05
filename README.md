@@ -1,84 +1,79 @@
-SlicerTestingData
-=================
+SlicerSOFA Testing Data Repository Guide
+====================================
 
-This is a mirror for storing Slicer testing data.
-
-To support content-based addressing, files are uploaded as assets organized in [releases](https://github.com/Slicer/SlicerTestingData/releases)
-named after the hashing algorithm.
-
-For each hashing algorithm `<HASHALGO>` (MD5, SHA256, ...), you will find:
-* release named `<HASHALGO>`
-* a CSV file `<HASHALGO>.csv` listing all `<hashsum>;<filename>` pairs
-* markdown document `<HASHALGO>.md` with links of the form `* [<filename>](https://github.com/Slicer/SlicerTestingData/releases/download/<HASHALGO>/<checksum>)` (this file is regenerated on each upload from the CSV file, therefore files should be renamed or deleted by editing the CSV file)
-
-_The commands reported below should be evaluated in the same terminal session. See [Documentation conventions](#documentation-conventions)_
-
-Upload files
-------------
-
-1. Install [Prerequisites](#prerequisites)
-
-2. Copy files to upload in `INCOMING` directory.
-
-3. Run process_release_data.py script specifying your github token and upload command.
-
-```
-$ python process_release_data.py upload --github-token 123123...123
-```
-
-4. Optional: Clear content of `INCOMING` directory if all files have been uploaded for each `<HASHALGO>`.
-
-Download files
------------------
-
-1. Install [Prerequisites](#prerequisites)
-
-2. Run process_release_data.py script specifying your github token, download command, and hash algorithm. If multiple versions of the same filename are available then the unique file names will be generated in the download folder by attaching the checksum to the end of each original filename.
-
-```
-$ python process_release_data.py download --github-token 123123...123
-```
-
-Rename a file
------------------
-
-Download `<HASHALGO>.csv` file from the corresponding release, edit it, upload the modified version, and run `process_release_data upload`.
-
-Note: Since each file is identified by hash sum, changing the filename does not affect the ability to find and download files. Filenames are only stored in the repository to allow generation of user-friendly file names.
-
-Delete a file
------------------
-
-Download `<HASHALGO>.csv` file from the corresponding release, remove the line referring to the file that should be deleted, upload the modified version, and run `process_release_data upload`. Remove the referred file from the release assets.
-
-Note: Deleting files should be avoided (even if an old version of a file is replaced by a new one), because tests in earlier software versions may still expect to find previously uploaded files. Deleting is only recommended for immediate removal files that have just been uploaded by mistake.
-
-Prerequisites
--------------
-
-1. Download this project
-
-```
-$ git clone git://github.com/Slicer/SlicerTestingData
-```
-
-2. Install Python and [githubrelease](https://github.com/j0057/github-release#installing) package
-
-```
-$ pip install githubrelease
-```
-
-3. [Create a github personal access token](https://help.github.com/articles/creating-an-access-token-for-command-line-use) with "repo" scope to get read/write access to the repository
-
-
-Documentation conventions
+Purpose of the Repository
 -------------------------
 
-Commands to evaluate starts with a dollar sign. For example:
+The SlicerSOFA Testing Data Repository is specifically established to manage the data used for testing purposes in the SlicerSOFA extension. It serves as the central hub for storing and organizing SlicerSOFA's testing assets.
+
+Managing Data Using Content-Based Addressing
+--------------------------------------------
+
+Files are methodically managed within the repository by utilizing content-based addressing via [releases](https://github.com/rafaelpalomar/SlicerSOFATestingData/releases). Releases are named based on the hash algorithm employed in their creation.
+
+For each predetermined hash algorithm `<HASHALGO>` (i.e., MD5, SHA256, etc.), please ensure the repository includes:
+
+- A release under the name `<HASHALGO>`.
+- A CSV file named `<HASHALGO>.csv`, featuring an enumerated list of `<hashsum>;<filename>` pairs.
+- A markdown file `<HASHALGO>.md`, containing structured hyperlinks formatted as `* [<filename>](https://github.com/rafaelpalomar/SlicerSOFATestingData/releases/download/<HASHALGO>/<checksum>)`. Note that this markdown file is auto-generated after each upload based on the CSV file. Any changes, including deletions to files, should be reflected by editing the CSV file accordingly.
+
+For consistency in execution, we advise performing the commands presented in this guide in the same terminal session. Please refer to the section "Documentation Conventions" for additional clarification.
+
+Procedures for File Management
+------------------------------
+
+### Uploading Files:
+1. Complete the installation of the [Prerequisites](#prerequisites).
+2. Relocate the designated files to the `INCOMING` directory.
+3. Run the `process_release_data.py` script with your GitHub token and the upload command:
+
+   ```
+   $ python process_release_data.py upload --github-token your_github_token_here
+   ```
+
+4. Following a successful upload, you have the option to empty the `INCOMING` directory.
+
+### Downloading Files:
+1. Confirm the [Prerequisites](#prerequisites) are in place.
+2. Utilize the `process_release_data.py` script with your GitHub token, the download command, and the appropriate hash algorithm. Note that if there are several versions of a file, distinct filenames are automatically produced within the download directory by appending the checksum.
+
+   ```
+   $ python process_release_data.py download --github-token your_github_token_here
+   ```
+
+### Renaming a File:
+To change the name of a file, the `<HASHALGO>.csv` file must be downloaded from the associated release, edited, and re-uploaded. Subsequently, initiate an upload process using the `process_release_data upload` command. Keep in mind that alteration of filenames does not affect the integrity of fetching or downloading the files due to the primary usage of hash sums for identification.
+
+### Deleting a File:
+To delete a file, begin by downloading the respective `<HASHALGO>.csv`, remove the relevant file entry, upload the modified CSV, and proceed with the `process_release_data upload`. Additionally, delete the file from the release assets.
+
+Caution: File deletion is generally discouraged to preserve the integrity of past versions of software that may require access to the original data. Only consider deletion for files mistakenly uploaded.
+
+Setting the Foundations (Prerequisites)
+---------------------------------------
+
+1. Clone the project repository to your local system:
+
+   ```
+   $ git clone git://github.com/rafaelpalomar/SlicerSOFATestingData
+   ```
+
+2. Install Python, followed by the [githubrelease](https://github.com/j0057/github-release#installing) package:
+
+   ```
+   $ pip install githubrelease
+   ```
+
+3. [Create a personal GitHub access token](https://help.github.com/articles/creating-an-access-token-for-command-line-use) and assign it "repo" level permissions. This token enables you to perform read and write operations within the repository.
+
+Understanding Documentation Conventions
+---------------------------------------
+
+Commands intended for terminal execution are indicated with a dollar sign (`$`). Example:
 
 ```
 $ echo "Hello"
 Hello
 ```
 
-means that `echo "Hello"` should be copied and evaluated in the terminal.
+The user is required to enter `echo "Hello"` in their terminal as indicated without the dollar sign.

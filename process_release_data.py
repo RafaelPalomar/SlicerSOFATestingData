@@ -366,8 +366,8 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--github-repo",
-        help="github repository (default: Slicer/SlicerTestingData)",
-        default="Slicer/SlicerTestingData",
+        help="github repository (default: rafaelpalomar/SlicerSOFATestingData)",
+        default="rafaelpalomar/SlicerSOFATestingData",
     )
 
     args = parser.parse_args()
